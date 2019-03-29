@@ -1,14 +1,14 @@
 FROM debian
 
-RUN sudo apt-get update -y
+RUN apt-get update -y
 	
-RUN sudo apt-get install apache2  -y
+RUN apt-get install apache2  -y
 
-RUN sudo apt-get install apache2-utils  -y
+RUN apt-get install apache2-utils  -y
 
-RUN sudo apt-get install maven -y
+RUN apt-get install maven -y
 
-RUN sudo apt-get install openjdk-8-jre  -y
+RUN apt-get install openjdk-8-jre  -y
 
 RUN JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
