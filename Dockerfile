@@ -1,6 +1,6 @@
 FROM debian
 
-
+RUN chmod o+r /etc/resolv.conf 
 
 RUN apt-get update -y && apt-get install -y \
     apache2 \
