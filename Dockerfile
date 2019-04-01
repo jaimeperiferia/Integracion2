@@ -8,7 +8,6 @@ EXPOSE 8080
 FROM maven:3.5-jdk-8-alpine
 WORKDIR /
 COPY . .
-RUN mvn versions:set -DnewVersion=${APP_VERSION}
 RUN mvn clean test package
 
 FROM base
