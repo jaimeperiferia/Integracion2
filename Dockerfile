@@ -8,7 +8,7 @@ ARG APP_VERSION
 WORKDIR /app
 COPY . .
 RUN mvn versions:set -DnewVersion=${APP_VERSION}
-RUN mvn clean test package
+RUN mvn clean package test
 
 FROM base AS final
 ARG APP_VERSION
