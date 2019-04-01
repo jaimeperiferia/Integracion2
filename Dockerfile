@@ -1,23 +1,20 @@
-FROM debian
+#prueba de dockerfile con springboot
+FROM openjdk:8-jdk-alpine AS base
+WORKDIR /app
+EXPOSE 9000
 
-RUN chmod 644 /etc/resolv.conf
-RUN JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-RUN PATH=$PATH:$JAVA_HOME/bin
-RUN export JAVA_HOME
-RUN sudo add-apt-repository ppa:openjdk-r/ppa
-RUN sudo add-apt-repository ppa:ondrej/apache2
+FROM maven:3.5.4-jdk-8-alpine AS build
+ARG APP_VERSION
+WORKDIR /app
+COPY . .
+RUN mvn versions:set -DnewVersion=${APP_VERSION}
+RUN mvn clean test package
 
-RUN apt-get update -y  
-RUN apt install -y \
-    apache2 \
-    apache2-utils \
-    default-jdk \
-    maven 
-RUN mvn clean test 
-
-EXPOSE  80
-
-CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
+FROM base AS final
+ARG APP_VERSION
+WORKDIR /app
+COPY --from=build /app/target/arithmetica-${APP_VERSION}.jar ./app.jar
+ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","./app.jar"]
 
 
 
