@@ -4,9 +4,10 @@ WORKDIR /app
 EXPOSE 9000
 
 FROM maven:3.5.4-jdk-8-alpine AS build
-ARG APP_VERSION
+export APP_VERSION=v0.0.1
 WORKDIR /app
 COPY . .
+
 RUN mvn versions:set -DnewVersion=${APP_VERSION}
 RUN mvn clean test package
 
