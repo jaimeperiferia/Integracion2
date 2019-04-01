@@ -5,6 +5,7 @@ FROM debian as intermediate
 RUN chmod o+r /etc/resolv.conf 
 RUN apt-get update 
 RUN apt-get upgrade 
+RUN add-apt-repository ppa:git-core/ppa
 RUN apt-get install git
 RUN git config --global url."https://".insteadOf git:/
 
