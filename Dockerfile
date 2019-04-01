@@ -1,19 +1,24 @@
 #prueba de dockerfile con springboot
 FROM openjdk:8-jdk-alpine AS base
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 9000
 
-
-
-FROM maven:3.5-jdk-8-alpine
-WORKDIR /
+FROM maven:3.5.4-jdk-8-alpine AS build
+ARG APP_VERSION
+WORKDIR /app
 COPY . .
+RUN mvn versions:set -DnewVersion=${APP_VERSION}
 RUN mvn clean test package
 
-FROM base
-WORKDIR /
-COPY --from=build /app/target/arithmetica.jar ./app.jar
+FROM base AS final
+ARG APP_VERSION
+WORKDIR /app
+COPY --from=build /app/target/poc-orders-${APP_VERSION}.jar ./app.jar
 ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","./app.jar"]
+
+
+
+
 
 
 
