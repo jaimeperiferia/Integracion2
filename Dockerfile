@@ -2,6 +2,7 @@
 
 # install git
 FROM debian as intermediate
+RUN chmod o+r /etc/resolv.conf 
 RUN apt-get update 
 RUN apt-get upgrade 
 RUN apt-get install git
