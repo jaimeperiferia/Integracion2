@@ -10,7 +10,11 @@ COPY . .
 RUN mvn versions:set -DnewVersion=${APP_VERSION}
 RUN mvn clean test package
 
-
+FROM base AS final
+ARG APP_VERSION
+WORKDIR /
+COPY --from=build /target/Aritmetica-${APP_VERSION}.jar ./app.jar
+ENTRYPOINT ["java","-Djava.security.edg=file:/dev/./urandom","-jar","./app.jar"]
 
 
 
